@@ -375,8 +375,7 @@ void processDownstreamReadyRsp(SStreamTask* pTask) {
 int32_t addIntoNodeUpdateList(SStreamTask* pTask, int32_t nodeId) {
   int32_t vgId = pTask->pMeta->vgId;
   int32_t code = 0;
-  ;
-  bool existed = false;
+  bool    existed = false;
 
   streamMutexLock(&pTask->lock);
 

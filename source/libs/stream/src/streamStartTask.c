@@ -199,7 +199,7 @@ int32_t streamMetaAddTaskLaunchResult(SStreamMeta* pMeta, int64_t streamId, int3
 
   streamMetaWLock(pMeta);
   SStreamTask** p = taosHashGet(pMeta->pTasksMap, &id, sizeof(id));
-  if (p == NULL) {  // task does not exists in current vnode, not record the complete info
+  if (p == NULL) {  // task does not exist in current vnode, not record the complete info
     stError("vgId:%d s-task:0x%x not exists discard the check downstream info", vgId, taskId);
     streamMetaWUnLock(pMeta);
     return 0;

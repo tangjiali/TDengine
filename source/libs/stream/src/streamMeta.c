@@ -532,7 +532,6 @@ void streamMetaClear(SStreamMeta* pMeta) {
     // release the ref by timer
     if (p->info.delaySchedParam != 0 && p->info.fillHistory == 0) {  // one more ref in timer
       stDebug("s-task:%s stop schedTimer, and (before) desc ref:%d", p->id.idStr, p->refCnt);
-      ASSERT(p->refCnt != 3);
       streamTmrStop(p->schedInfo.pDelayTimer);
       p->info.delaySchedParam = 0;
       streamMetaReleaseTask(pMeta, p);
