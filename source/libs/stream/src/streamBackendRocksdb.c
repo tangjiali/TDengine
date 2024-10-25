@@ -2298,6 +2298,7 @@ int32_t taskDbOpenCfs(STaskDbWrapper* pTask, char* path, char** pCfNames, int32_
 
   if (err != NULL) {
     stError("failed to open cf path: %s", err);
+    ASSERT(0);
     taosMemoryFree(err);
     goto _EXIT;
   }
