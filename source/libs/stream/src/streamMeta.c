@@ -741,7 +741,7 @@ int32_t streamMetaAcquireTaskNoLock(SStreamMeta* pMeta, int64_t streamId, int32_
   }
 
   int32_t ref = atomic_add_fetch_32(&(*ppTask)->refCnt, 1);
-  stTrace("s-task:%s acquire task, ref:%d", (*ppTask)->id.idStr, ref);
+  stInfo("s-task:%s acquire task, ref:%d", (*ppTask)->id.idStr, ref);
   *pTask = *ppTask;
   return TSDB_CODE_SUCCESS;
 }
@@ -755,7 +755,7 @@ int32_t streamMetaAcquireTask(SStreamMeta* pMeta, int64_t streamId, int32_t task
 
 int32_t streamMetaAcquireOneTask(SStreamTask* pTask) {
   int32_t ref = atomic_add_fetch_32(&pTask->refCnt, 1);
-  stTrace("s-task:%s acquire task, ref:%d", pTask->id.idStr, ref);
+  stInfo("s-task:%s acquire task, ref:%d", pTask->id.idStr, ref);
   return ref;
 }
 
@@ -771,7 +771,7 @@ void streamMetaReleaseTask(SStreamMeta* UNUSED_PARAM(pMeta), SStreamTask* pTask)
   if (ref > 0) {
     stTrace("s-task:0x%x release task, ref:%d", taskId, ref);
   } else if (ref == 0) {
-    stTrace("s-task:0x%x all refs are gone, free it", taskId);
+    stInfo("s-task:0x%x all refs are gone, free it", taskId);
     tFreeStreamTask(pTask);
   } else if (ref < 0) {
     stError("task ref is invalid, ref:%d, 0x%x", ref, taskId);
@@ -892,7 +892,7 @@ int32_t streamMetaUnregisterTask(SStreamMeta* pMeta, int64_t streamId, int32_t t
     }
 
     if (pTask->info.delaySchedParam != 0 && pTask->info.fillHistory == 0) {
-      stDebug("s-task:%s stop schedTimer, and (before) desc ref:%d", pTask->id.idStr, pTask->refCnt);
+      stInfo("s-task:%s stop schedTimer, and (before) desc ref:%d", pTask->id.idStr, pTask->refCnt);
       streamTmrStop(pTask->schedInfo.pDelayTimer);
       pTask->info.delaySchedParam = 0;
       streamMetaReleaseTask(pMeta, pTask);
