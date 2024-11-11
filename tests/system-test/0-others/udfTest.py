@@ -9,6 +9,7 @@ from util.log import *
 from util.sql import *
 from util.cases import *
 from util.dnodes import *
+from util.common import *
 import subprocess
 
 class TDTestCase:
@@ -605,10 +606,11 @@ class TDTestCase:
             tdSql.checkData(0,0,169.661427555)
             tdSql.checkData(0,1,169.661427555)
             # stop udfd cmds
-            get_processID = "ps -ef | grep -w udfd | grep -v grep| grep -v defunct | awk '{print $2}'"
-            processID = subprocess.check_output(get_processID, shell=True).decode("utf-8")
-            stop_udfd = " kill -9 %s" % processID
-            os.system(stop_udfd)
+            # get_processID = "ps -ef | grep -w udfd | grep -v grep | grep -v defunct | awk '{print $2}'"
+            # processID = subprocess.check_output(get_processID, shell=True).decode("utf-8")
+            # stop_udfd = " kill -9 %s" % processID
+            # os.system(stop_udfd)
+            tdCom.killProcessor("udfd")
 
             time.sleep(2)
 
