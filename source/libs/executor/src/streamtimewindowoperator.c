@@ -5431,6 +5431,8 @@ static int32_t createStreamSingleIntervalOperatorInfo(SOperatorInfo* downstream,
   pInfo->pOperator = pOperator;
   setOperatorInfo(pOperator, "StreamIntervalOperator", QUERY_NODE_PHYSICAL_PLAN_STREAM_INTERVAL, true, OP_NOT_OPENED,
                   pInfo, pTaskInfo);
+
+  //todo(liuyao) 这里需要修改，挂非阻塞的算子
   pOperator->fpSet =
       createOperatorFpSet(optrDummyOpenFn, doStreamIntervalAggNext, NULL, destroyStreamFinalIntervalOperatorInfo,
                           optrDefaultBufFn, NULL, optrDefaultGetNextExtFn, NULL);

@@ -3644,6 +3644,7 @@ static int32_t doStreamScanNext(SOperatorInfo* pOperator, SSDataBlock** ppRes) {
     if (pInfo->pRecoverRes != NULL) {
       code = calBlockTbName(pInfo, pInfo->pRecoverRes, 0);
       QUERY_CHECK_CODE(code, lino, _end);
+      //todo(liuyao) 这里可能需要修改，这里不需要填充update信息
       if (!pInfo->igCheckUpdate && pInfo->pUpdateInfo) {
         TSKEY maxTs = INT64_MIN;
         code = pAPI->stateStore.updateInfoFillBlockData(pInfo->pUpdateInfo, pInfo->pRecoverRes, pInfo->primaryTsIndex,
