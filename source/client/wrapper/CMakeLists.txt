@@ -9,7 +9,7 @@ target_include_directories(
 
 target_link_libraries(
     wrapper
-    PUBLIC os util transport geometry
+    PUBLIC os util
 )
 
 if(${BUILD_TEST})

@@ -22,6 +22,11 @@ else()
     target_link_libraries(shell PUBLIC wrapper ${LINK_JEMALLOC} ${LINK_ARGP})
 endif()
 
+target_link_libraries(
+    shell
+    PUBLIC os util common transport geometry
+)
+
 target_include_directories(
     shell
     PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/inc"
@@ -41,6 +46,7 @@ IF(TD_LINUX)
     add_library(shell_ut STATIC ${SHELL_SRC})
 
     target_link_libraries(shell_ut PUBLIC wrapper ${LINK_JEMALLOC} ${LINK_ARGP})
+    target_link_libraries(shell_ut PUBLIC os common transport geometry util)
 
     # util depends
     target_link_directories(

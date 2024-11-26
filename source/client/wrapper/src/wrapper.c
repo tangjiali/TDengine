@@ -114,18 +114,18 @@ TSDB_SERVER_STATUS taos_check_server_status(const char *fqdn, int port, char *de
 }
 
 #define TAOS_DRIVER_NATIVE_NAME    "libtaosinternal.so"
-#define TAOS_DRIVER_WSBSOCKET_NAME "libtaos.so"
+#define TAOS_DRIVER_WSBSOCKET_NAME "libtaosws.so"
 
 #define LOAD_FUNC(fptr, fname, driverName)    \
   funcName = fname;                           \
   fptr = taosLoadDllFunc(tsDriver, funcName); \
   if (fptr == NULL) goto _OVER;
 
-static int32_t taosGetDebugDrive(char *driverPath, const char *driverName) {
+static int32_t taosGetDevelopPath(char *driverPath, const char *driverName) {
   int32_t ret = 0;
 
 #ifdef WINDOWS
-  tstrncpy(tmp, "./", PATH_MAX);
+  tstrncpy(tmp, ".\\", PATH_MAX);
 #else
   char appPath[PATH_MAX] = {0};
   ret = taosGetAppPath(appPath, PATH_MAX);
@@ -138,11 +138,13 @@ static int32_t taosGetDebugDrive(char *driverPath, const char *driverName) {
   return ret;
 }
 
-static int32_t taosGetInstallDriver(char *driverPath, const char *driverName) {
+static int32_t taosGetInstallPath(char *driverPath, const char *driverName) {
 #ifdef WINDOWS
-  (void)tstrncpy(tmp, "./", PATH_MAX);
+  // (void)tstrncpy(tmp, "./", PATH_MAX);
+  tstrncpy(driverPath, driverName, PATH_MAX);
 #else
-  (void)snprintf(driverPath, PATH_MAX, "/usr/local/taos/driver/%s", driverName);
+  // (void)snprintf(driverPath, PATH_MAX, "/usr/local/taos/driver/%s", driverName);
+  tstrncpy(driverPath, driverName, PATH_MAX);
 #endif
   return 0;
 }
@@ -157,11 +159,11 @@ int32_t taosDriverInit(ETaosDriverType driverType) {
     driverName = TAOS_DRIVER_NATIVE_NAME;
   }
 
-  if (tsDriver == NULL && taosGetDebugDrive(driverPath, driverName) == 0) {
+  if (tsDriver == NULL && taosGetDevelopPath(driverPath, driverName) == 0) {
     tsDriver = taosLoadDll(driverPath);
   }
 
-  if (tsDriver == NULL && taosGetInstallDriver(driverPath, driverName) == 0) {
+  if (tsDriver == NULL && taosGetInstallPath(driverPath, driverName) == 0) {
     tsDriver = taosLoadDll(driverPath);
   }
 
