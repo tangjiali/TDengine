@@ -336,6 +336,7 @@ int metaCreateSTable(SMeta *pMeta, int64_t version, SVCreateStbReq *pReq) {
     TABLE_SET_COL_COMPRESSED(me.flags);
     me.colCmpr = pReq->colCmpr;
   }
+  me.pExtSchema = pReq->pExtSchema;
 
   code = metaHandleEntry(pMeta, &me);
   if (code) goto _err;
